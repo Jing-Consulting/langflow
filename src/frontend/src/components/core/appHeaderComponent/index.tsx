@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import AlertDropdown from "@/alerts/alertDropDown";
 import DataStaxLogo from "@/assets/DataStaxLogo.svg?react";
-import LangflowLogo from "@/assets/LangflowLogo.svg?react";
+import MACPLogo from "@/assets/MACPLogo.png";
 import { AssistantButton } from "@/components/common/assistant";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import ModelProviderCount from "@/components/common/modelProviderCountComponent";
@@ -70,7 +70,7 @@ export default function AppHeader(): JSX.Element {
           className="mr-1 flex h-8 w-8 items-center"
           data-testid="icon-ChevronLeft"
         >
-          <LangflowLogo className="h-5 w-5" />
+          <img src={MACPLogo} alt="MACP" className="h-5 w-5" />
         </Button>
         <CustomOrgSelector />
       </div>
@@ -119,11 +119,10 @@ export default function AppHeader(): JSX.Element {
                   <span className={getNotificationBadge()} />
                   <ForwardedIconComponent
                     name="Bell"
-                    className={`side-bar-button-size h-4 w-4 ${
-                      activeState === "notifications"
-                        ? "text-primary"
-                        : "text-muted-foreground group-hover:text-primary"
-                    }`}
+                    className={`side-bar-button-size h-4 w-4 ${activeState === "notifications"
+                      ? "text-primary"
+                      : "text-muted-foreground group-hover:text-primary"
+                      }`}
                     strokeWidth={2}
                   />
                   <span className="hidden whitespace-nowrap">
