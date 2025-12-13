@@ -1,5 +1,5 @@
 src/frontend/node_modules
-src/frontend/build
+# src/frontend/build   # Allowing pre-built MACP frontend
 src/frontend/coverage
 src/frontend/test-results
 src/frontend/playwright-report

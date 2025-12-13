@@ -79,8 +79,8 @@ export default function LoginPage(): JSX.Element {
             alt="MACP Logo"
             className="mb-4 h-16 w-16"
           />
-          <span className="mb-6 text-2xl font-semibold text-primary">
-            Sign in to MACP
+          <span className="mb-6 text-2xl font-semibold text-primary text-center">
+            JC-MACP Agent Builder
           </span>
           <div className="mb-3 w-full">
             <Form.Field name="username">
@@ -95,7 +95,7 @@ export default function LoginPage(): JSX.Element {
                     handleInput({ target: { name: "username", value } });
                   }}
                   value={username}
-                  className="w-full"
+                  className="w-full border-2 border-primary/30 bg-white/80"
                   required
                   placeholder="Username"
                 />
@@ -121,7 +121,7 @@ export default function LoginPage(): JSX.Element {
                 password={true}
                 required
                 placeholder="Password"
-                className="w-full"
+                className="w-full border-2 border-primary/30 bg-white/80"
               />
 
               <Form.Message className="field-invalid" match="valueMissing">
@@ -136,13 +136,7 @@ export default function LoginPage(): JSX.Element {
               </Button>
             </Form.Submit>
           </div>
-          <div className="w-full">
-            <CustomLink to="/signup">
-              <Button className="w-full" variant="outline" type="button">
-                Don't have an account?&nbsp;<b>Sign Up</b>
-              </Button>
-            </CustomLink>
-          </div>
+          {/* Signup removed - using V1 unified authentication */}
         </div>
       </div>
     </Form.Root>
