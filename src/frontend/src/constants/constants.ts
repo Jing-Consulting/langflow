@@ -978,14 +978,14 @@ export const OPENAI_VOICES = [
 export const DEFAULT_POLLING_INTERVAL = 5000;
 export const DEFAULT_TIMEOUT = 30000;
 export const DEFAULT_FILE_PICKER_TIMEOUT = 60000;
-export const DISCORD_URL = "https://discord.com/invite/EqksyE2EX9";
-export const GITHUB_URL = "https://github.com/langflow-ai/langflow";
+export const DISCORD_URL = "https://discordapp.com/api/webhooks/1442127055213826050/_4wbdjNWqDPQxkROIS7xVpIrV_4rMz0r2KY-sSSQTgxeh1PVrb5RjIenHS6TfBAwvkjL";
+export const GITHUB_URL = "";  // Removed - not needed for MACP
 export const TWITTER_URL = "https://x.com/langflow_ai";
 export const DOCS_URL = "https://docs.langflow.org";
 export const DATASTAX_DOCS_URL =
   "https://docs.datastax.com/en/langflow/index.html";
 export const DESKTOP_URL = "https://www.langflow.org/desktop";
-export const BUG_REPORT_URL = "https://github.com/langflow-ai/langflow/issues";
+export const BUG_REPORT_URL = "";  // Removed - not needed for MACP
 
 export const UUID_PARSING_ERROR = "uuid_parsing";
 

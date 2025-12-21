@@ -1,11 +1,37 @@
 from .model_metadata import create_model_metadata
 
 # Unified model metadata - single source of truth
+# Note: Only models with default=True will show in the model selector by default
+# Limited to 3 most advanced models per provider for UI conciseness
 OPENAI_MODELS_DETAILED = [
-    # GPT-5 Series
+    # GPT-5.2 Series - Latest (December 2025) - TOP 3 DEFAULTS
+    create_model_metadata(
+        provider="OpenAI",
+        name="gpt-5.2",
+        icon="OpenAI",
+        tool_calling=True,
+        reasoning=True,
+        default=True,  # Default 1/3
+    ),
     create_model_metadata(
         provider="OpenAI",
         name="gpt-5.1",
+        icon="OpenAI",
+        tool_calling=True,
+        reasoning=True,
+        default=True,  # Default 2/3 - MACP-AB default model
+    ),
+    create_model_metadata(
+        provider="OpenAI",
+        name="gpt-4o",
+        icon="OpenAI",
+        tool_calling=True,
+        default=True,  # Default 3/3
+    ),
+    # GPT-5 Series - Additional (not default)
+    create_model_metadata(
+        provider="OpenAI",
+        name="gpt-5.2-pro",
         icon="OpenAI",
         tool_calling=True,
         reasoning=True,
@@ -16,7 +42,6 @@ OPENAI_MODELS_DETAILED = [
         icon="OpenAI",
         tool_calling=True,
         reasoning=True,
-        default=True,
     ),
     create_model_metadata(
         provider="OpenAI",
@@ -24,72 +49,36 @@ OPENAI_MODELS_DETAILED = [
         icon="OpenAI",
         tool_calling=True,
         reasoning=True,
-        default=True,
     ),
     create_model_metadata(
         provider="OpenAI",
-        name="gpt-5-nano",
+        name="gpt-4o-mini",
         icon="OpenAI",
         tool_calling=True,
-        reasoning=True,
-        default=True,
     ),
     create_model_metadata(
         provider="OpenAI",
-        name="gpt-5-chat-latest",
+        name="gpt-4.1",
         icon="OpenAI",
-        tool_calling=False,
-        reasoning=True,
-    ),
-    # Regular OpenAI Models
-    create_model_metadata(provider="OpenAI", name="gpt-4o-mini", icon="OpenAI", tool_calling=True, default=True),
-    create_model_metadata(provider="OpenAI", name="gpt-4o", icon="OpenAI", tool_calling=True, default=True),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4.1", icon="OpenAI", tool_calling=True, preview=True, not_supported=True
+        tool_calling=True,
     ),
     create_model_metadata(
-        provider="OpenAI", name="gpt-4.1-mini", icon="OpenAI", tool_calling=True, preview=True, not_supported=True
+        provider="OpenAI",
+        name="gpt-4-turbo",
+        icon="OpenAI",
+        tool_calling=True,
     ),
     create_model_metadata(
-        provider="OpenAI", name="gpt-4.1-nano", icon="OpenAI", tool_calling=True, preview=True, not_supported=True
+        provider="OpenAI",
+        name="gpt-4",
+        icon="OpenAI",
+        tool_calling=True,
     ),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4.5-preview", icon="OpenAI", tool_calling=True, preview=True, not_supported=True
-    ),
-    create_model_metadata(provider="OpenAI", name="gpt-4-turbo", icon="OpenAI", tool_calling=True),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4-turbo-preview", icon="OpenAI", tool_calling=True, preview=True, deprecated=True
-    ),
-    create_model_metadata(provider="OpenAI", name="gpt-4", icon="OpenAI", tool_calling=True),
-    create_model_metadata(provider="OpenAI", name="gpt-3.5-turbo", icon="OpenAI", tool_calling=True, deprecated=True),
     # Reasoning Models
     create_model_metadata(provider="OpenAI", name="o1", icon="OpenAI", reasoning=True),
     create_model_metadata(provider="OpenAI", name="o1-mini", icon="OpenAI", reasoning=True, not_supported=True),
-    create_model_metadata(provider="OpenAI", name="o1-pro", icon="OpenAI", reasoning=True, not_supported=True),
-    create_model_metadata(
-        provider="OpenAI", name="o3-mini", icon="OpenAI", reasoning=True, preview=True, not_supported=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="o3", icon="OpenAI", reasoning=True, preview=True, not_supported=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="o3-pro", icon="OpenAI", reasoning=True, preview=True, not_supported=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="o4-mini", icon="OpenAI", reasoning=True, preview=True, not_supported=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="o4-mini-high", icon="OpenAI", reasoning=True, preview=True, not_supported=True
-    ),
+    create_model_metadata(provider="OpenAI", name="o3-mini", icon="OpenAI", reasoning=True, preview=True, not_supported=True),
     # Search Models
-    create_model_metadata(
-        provider="OpenAI",
-        name="gpt-4o-mini-search-preview",
-        icon="OpenAI",
-        tool_calling=True,
-        search=True,
-        preview=True,
-    ),
     create_model_metadata(
         provider="OpenAI",
         name="gpt-4o-search-preview",
@@ -98,23 +87,10 @@ OPENAI_MODELS_DETAILED = [
         search=True,
         preview=True,
     ),
-    # Not Supported Models
-    create_model_metadata(
-        provider="OpenAI", name="computer-use-preview", icon="OpenAI", not_supported=True, preview=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4o-audio-preview", icon="OpenAI", not_supported=True, preview=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4o-realtime-preview", icon="OpenAI", not_supported=True, preview=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4o-mini-audio-preview", icon="OpenAI", not_supported=True, preview=True
-    ),
-    create_model_metadata(
-        provider="OpenAI", name="gpt-4o-mini-realtime-preview", icon="OpenAI", not_supported=True, preview=True
-    ),
+    # Deprecated
+    create_model_metadata(provider="OpenAI", name="gpt-3.5-turbo", icon="OpenAI", tool_calling=True, deprecated=True),
 ]
+
 OPENAI_CHAT_MODEL_NAMES = [
     metadata["name"]
     for metadata in OPENAI_MODELS_DETAILED

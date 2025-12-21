@@ -4,6 +4,7 @@ export function searchInMetadata(metadata: any, searchTerm: string): boolean {
   if (!metadata || typeof metadata !== "object") return false;
 
   return Object.entries(metadata).some(([key, value]) => {
+    if (value == null) return false;
     if (typeof value === "string") {
       return (
         normalizeString(key).includes(searchTerm) ||

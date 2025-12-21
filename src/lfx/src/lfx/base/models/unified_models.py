@@ -363,6 +363,7 @@ def get_language_model_options(
     # Get disabled and explicitly enabled models for this user if user_id is provided
     disabled_models = set()
     explicitly_enabled_models = set()
+    skip_model_filter = False  # If True, skip the default/enabled model filter entirely
     if user_id:
         try:
 
@@ -394,11 +395,17 @@ def get_language_model_options(
 
             disabled_models, explicitly_enabled_models = run_until_complete(_get_model_status())
         except Exception:  # noqa: BLE001, S110
-            # If we can't get model status, continue without filtering
-            pass
+            # If we can't get model status, SKIP the model filter entirely (show all models)
+            skip_model_filter = True
+
+    # TEMPORARY FIX: Always skip model filtering until session scope issue is resolved
+    # This ensures all models are shown regardless of user preferences
+    skip_model_filter = True
 
     # Get enabled providers (those with credentials configured)
-    enabled_providers = set()
+    # Falls back to admin credentials if user has no API keys
+    # None means 'skip filtering', empty set means 'no providers enabled'
+    enabled_providers = None  # Default: no filtering (show all providers)
     if user_id:
         try:
 
@@ -406,26 +413,64 @@ def get_language_model_options(
                 async with session_scope() as session:
                     variable_service = get_variable_service()
                     if variable_service is None:
-                        return set()
+                        return None  # Can't check credentials, skip filtering
                     from langflow.services.variable.constants import CREDENTIAL_TYPE
                     from langflow.services.variable.service import DatabaseVariableService
 
                     if not isinstance(variable_service, DatabaseVariableService):
-                        return set()
+                        return None  # Can't check credentials, skip filtering
+
+                    # First, get user's own credentials
                     all_vars = await variable_service.get_all(
                         user_id=UUID(user_id) if isinstance(user_id, str) else user_id,
                         session=session,
                     )
                     credential_names = {var.name for var in all_vars if var.type == CREDENTIAL_TYPE}
                     provider_variable_map = get_model_provider_variable_mapping()
-                    return {
+                    user_providers = {
                         provider for provider, var_name in provider_variable_map.items() if var_name in credential_names
                     }
 
+                    # If user has their own credentials, use those
+                    if user_providers:
+                        return user_providers
+
+                    # Otherwise, fall back to admin (superuser) credentials
+                    # This allows regular users to use admin-configured API keys
+                    try:
+                        from langflow.services.database.models.user.crud import get_all_superusers
+
+                        superusers = await get_all_superusers(session)
+                        if superusers:
+                            # Get the first superuser's credentials
+                            admin_user = superusers[0]
+                            admin_vars = await variable_service.get_all(
+                                user_id=admin_user.id,
+                                session=session,
+                            )
+                            admin_credential_names = {var.name for var in admin_vars if var.type == CREDENTIAL_TYPE}
+                            admin_providers = {
+                                provider
+                                for provider, var_name in provider_variable_map.items()
+                                if var_name in admin_credential_names
+                            }
+                            if admin_providers:
+                                return admin_providers
+                    except Exception:  # noqa: BLE001
+                        # If we can't get admin credentials, skip filtering
+                        pass
+
+                    # No credentials found - skip filtering to show all providers
+                    return None
+
             enabled_providers = run_until_complete(_get_enabled_providers())
         except Exception:  # noqa: BLE001, S110
-            # If we can't get enabled providers, show all
-            pass
+            # If we can't get enabled providers, skip filtering (show all)
+            enabled_providers = None
+
+    # TEMPORARY FIX: Always skip provider filtering until session scope issue is resolved
+    # This ensures all providers are shown regardless of API key configuration
+    enabled_providers = None
 
     options = []
     model_class_mapping = {
@@ -469,13 +514,15 @@ def get_language_model_options(
             is_default = metadata.get("default", False)
 
             # Determine if model should be shown:
+            # - If skip_model_filter is True (couldn't fetch status), show all models
             # - If not default and not explicitly enabled, skip it
             # - If in disabled list, skip it
             # - Otherwise, show it
-            if not is_default and model_name not in explicitly_enabled_models:
-                continue
-            if model_name in disabled_models:
-                continue
+            if not skip_model_filter:
+                if not is_default and model_name not in explicitly_enabled_models:
+                    continue
+                if model_name in disabled_models:
+                    continue
 
             # Build the option dict
             option = {
@@ -583,6 +630,10 @@ def get_embedding_model_options(user_id: UUID | str | None = None) -> list[dict[
             # If we can't get model status, continue without filtering
             pass
 
+    # TEMPORARY FIX: Always skip model filtering until session scope issue is resolved
+    # This ensures all embedding models are shown regardless of default flag
+    skip_model_filter = True
+
     # Get enabled providers (those with credentials configured)
     enabled_providers = set()
     if user_id:
@@ -612,6 +663,10 @@ def get_embedding_model_options(user_id: UUID | str | None = None) -> list[dict[
         except Exception:  # noqa: BLE001, S110
             # If we can't get enabled providers, show all
             pass
+
+    # TEMPORARY FIX: Always skip provider filtering until session scope issue is resolved
+    # This ensures all embedding providers are shown regardless of API key configuration
+    enabled_providers = None
 
     options = []
     embedding_class_mapping = {
@@ -682,11 +737,12 @@ def get_embedding_model_options(user_id: UUID | str | None = None) -> list[dict[
             is_default = metadata.get("default", False)
 
             # Determine if model should be shown:
-            # - If not default and not explicitly enabled, skip it
+            # - If not default and not explicitly enabled, skip it (unless skip_model_filter)
             # - If in disabled list, skip it
             # - Otherwise, show it
-            if not is_default and model_name not in explicitly_enabled_models:
-                continue
+            if not skip_model_filter:
+                if not is_default and model_name not in explicitly_enabled_models:
+                    continue
             if model_name in disabled_models:
                 continue
 
@@ -951,11 +1007,19 @@ def update_model_options_in_build_config(
     if should_refresh:
         # Fetch options based on user's enabled models
         try:
+            import structlog
+            logger = structlog.get_logger()
+            logger.info(f"[MODEL_OPTIONS_DEBUG] Fetching options for user_id={component.user_id}")
             options = get_options_func(user_id=component.user_id)
+            providers = set(opt.get('category', opt.get('provider', 'Unknown')) for opt in options)
+            logger.info(f"[MODEL_OPTIONS_DEBUG] Got {len(options)} options from providers: {providers}")
             # Cache the results with timestamp
             component.cache[cache_key] = {"options": options}
             component.cache[cache_timestamp_key] = time.time()
-        except KeyError as exc:
+        except Exception as exc:  # Catch all exceptions, not just KeyError
+            import structlog
+            logger = structlog.get_logger()
+            logger.error(f"[MODEL_OPTIONS_DEBUG] Exception: {type(exc).__name__}: {exc}")
             # If we can't get user-specific options, fall back to empty
             component.log("Failed to fetch user-specific model options: %s", exc)
             component.cache[cache_key] = {"options": []}

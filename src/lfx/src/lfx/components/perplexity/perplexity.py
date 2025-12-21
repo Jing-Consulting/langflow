@@ -21,15 +21,17 @@ class PerplexityComponent(LCModelComponent):
             display_name="Model Name",
             advanced=False,
             options=[
+                # Current Sonar models (as of late 2024)
+                "sonar",
+                "sonar-pro",
+                "sonar-reasoning",
+                "sonar-reasoning-pro",
+                # Legacy models (may still work)
                 "llama-3.1-sonar-small-128k-online",
                 "llama-3.1-sonar-large-128k-online",
                 "llama-3.1-sonar-huge-128k-online",
-                "llama-3.1-sonar-small-128k-chat",
-                "llama-3.1-sonar-large-128k-chat",
-                "llama-3.1-8b-instruct",
-                "llama-3.1-70b-instruct",
             ],
-            value="llama-3.1-sonar-small-128k-online",
+            value="sonar",
         ),
         IntInput(name="max_tokens", display_name="Max Output Tokens", info="The maximum number of tokens to generate."),
         SecretStrInput(

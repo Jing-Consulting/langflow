@@ -22,6 +22,7 @@ import useAuthStore from "@/stores/authStore";
 import useFlowStore from "@/stores/flowStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { cn } from "@/utils/utils";
+import DeployToV1Modal from "@/modals/deployToV1Modal";
 
 type PublishDropdownProps = {
   openApiModal: boolean;
@@ -46,8 +47,15 @@ export default function PublishDropdown({
   const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
   const isPublished = currentFlow?.access_type === "PUBLIC";
   const hasIO = useFlowStore((state) => state.hasIO);
+  const isBuilding = useFlowStore((state) => state.isBuilding);
   const isAuth = useAuthStore((state) => !!state.autoLogin);
   const [openExportModal, setOpenExportModal] = useState(false);
+  const [openDeployV1Modal, setOpenDeployV1Modal] = useState(false);
+
+  // Flow is deployable when it is locked, has nodes, is not currently building, and has IO connections
+  const nodes = currentFlow?.data?.nodes || [];
+  const isLocked = currentFlow?.locked ?? false;
+  const isFlowDeployable = isLocked && nodes.length > 0 && !isBuilding && hasIO;
 
   const handlePublishedSwitch = async (checked: boolean) => {
     mutateAsync(
@@ -120,6 +128,39 @@ export default function PublishDropdown({
             <IconComponent name="Download" className={`icon-size mr-2`} />
             <span>Export</span>
           </DropdownMenuItem>
+          <ShadTooltipComponent
+            styleClasses="truncate"
+            side="left"
+            content={
+              !isLocked
+                ? "Lock the flow first to enable deployment"
+                : !hasIO
+                  ? "Add Chat Input/Output to make flow deployable"
+                  : isBuilding
+                    ? "Cannot deploy while flow is building"
+                    : nodes.length === 0
+                      ? "Add nodes to the canvas to deploy"
+                      : "Deploy this flow to a V1 custom agent"
+            }
+          >
+            <DropdownMenuItem
+              className={cn(
+                "deploy-dropdown-item group",
+                !isFlowDeployable && "opacity-50 cursor-not-allowed"
+              )}
+              onClick={() => isFlowDeployable && setOpenDeployV1Modal(true)}
+              disabled={!isFlowDeployable}
+              data-testid="deploy-v1-item"
+            >
+              <IconComponent
+                name="Rocket"
+                className={cn(`icon-size mr-2`, !isFlowDeployable && "opacity-50")}
+              />
+              <span className={cn(!isFlowDeployable && "opacity-50")}>
+                Deploy to V1 Agent
+              </span>
+            </DropdownMenuItem>
+          </ShadTooltipComponent>
           <CustomLink
             className={cn("flex-1")}
             to={`/mcp/folder/${folderId}`}
@@ -127,7 +168,7 @@ export default function PublishDropdown({
           >
             <DropdownMenuItem
               className="deploy-dropdown-item group"
-              onClick={() => {}}
+              onClick={() => { }}
               data-testid="mcp-server-item"
             >
               <IconComponent name="Mcp" className={`icon-size mr-2`} />
@@ -152,7 +193,7 @@ export default function PublishDropdown({
             <DropdownMenuItem
               className="deploy-dropdown-item group"
               disabled={!hasIO}
-              onClick={() => {}}
+              onClick={() => { }}
               data-testid="shareable-playground"
             >
               <div className="flex w-full items-center justify-between">
@@ -222,6 +263,12 @@ export default function PublishDropdown({
         activeTweaks={false}
       ></EmbedModal>
       <ExportModal open={openExportModal} setOpen={setOpenExportModal} />
+      <DeployToV1Modal
+        open={openDeployV1Modal}
+        setOpen={setOpenDeployV1Modal}
+        flowId={flowId ?? ""}
+        flowName={flowName ?? ""}
+      />
     </>
   );
 }

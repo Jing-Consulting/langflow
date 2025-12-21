@@ -509,7 +509,8 @@ export const nodeIconToDisplayIconMap: Record<string, string> = {
   note: "StickyNote",
 };
 
-export const getLucideIconName = (name: string): string => {
+export const getLucideIconName = (name: string | null | undefined): string => {
+  if (!name) return "";
   const map = {
     AlertCircle: "circle-alert",
     AlertTriangle: "triangle-alert",
@@ -524,6 +525,7 @@ export const getLucideIconName = (name: string): string => {
     .toLowerCase();
   return map[name] || kebabCaseName;
 };
+
 
 // Initialize icon mappings based on if we want to support lazy loading for cloud
 const iconMappingsPromise = import("../icons/lazyIconImports").then(

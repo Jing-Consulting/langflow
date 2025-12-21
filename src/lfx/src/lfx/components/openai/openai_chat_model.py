@@ -25,6 +25,7 @@ class OpenAIModelComponent(LCModelComponent):
             advanced=True,
             info="The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
             range_spec=RangeSpec(min=0, max=128000),
+            value=10000,  # MACP-AB default
         ),
         DictInput(
             name="model_kwargs",
@@ -66,7 +67,7 @@ class OpenAIModelComponent(LCModelComponent):
         SliderInput(
             name="temperature",
             display_name="Temperature",
-            value=0.1,
+            value=0,  # MACP-AB default: deterministic output
             range_spec=RangeSpec(min=0, max=1, step=0.01),
             show=True,
         ),

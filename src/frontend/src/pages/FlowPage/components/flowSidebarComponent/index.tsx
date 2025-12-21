@@ -212,12 +212,12 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
   const fallbackSearchInputRef = useRef<HTMLInputElement | null>(null);
   const {
     search = "",
-    setSearch = () => {},
+    setSearch = () => { },
     searchInputRef = fallbackSearchInputRef,
     isSearchFocused = false,
-    handleInputFocus = () => {},
-    handleInputBlur = () => {},
-    handleInputChange: originalHandleInputChange = () => {},
+    handleInputFocus = () => { },
+    handleInputBlur = () => { },
+    handleInputChange: originalHandleInputChange = () => { },
   } = context;
 
   const handleInputChange = useCallback(
@@ -333,7 +333,7 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
 
     return Object.keys(searchFilteredData).toSorted((a, b) =>
       searchResults.fuseCategories.indexOf(b) <
-      searchResults.fuseCategories.indexOf(a)
+        searchResults.fuseCategories.indexOf(a)
         ? 1
         : -1,
     );
@@ -443,6 +443,9 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
     const fuseData = Object.entries(baseData).flatMap(([category, items]) =>
       Object.entries(items).map(([key, value]) => ({
         ...value,
+        // Ensure display_name and description are never null/undefined for Fuse.js search
+        display_name: (value as any)?.display_name ?? key,
+        description: (value as any)?.description ?? "",
         category,
         key,
       })),
@@ -738,8 +741,8 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
             )}
           </SidebarContent>
           {ENABLE_NEW_SIDEBAR &&
-          activeSection === "mcp" &&
-          !hasMcpServers ? null : (
+            activeSection === "mcp" &&
+            !hasMcpServers ? null : (
             <SidebarFooter className="border-t group-data-[collapsible=icon]:hidden p-1 gap-1">
               <SidebarMenuButtons
                 customComponent={customComponent}

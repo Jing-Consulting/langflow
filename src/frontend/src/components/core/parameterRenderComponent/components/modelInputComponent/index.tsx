@@ -7,6 +7,7 @@ import { useGetModelProviders } from "@/controllers/API/queries/models/use-get-m
 import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-template-value";
 import ModelProviderModal from "@/modals/modelProviderModal";
 import useAlertStore from "@/stores/alertStore";
+import useAuthStore from "@/stores/authStore";
 import useFlowStore from "@/stores/flowStore";
 import { useTypesStore } from "@/stores/typesStore";
 import type { APIClassType } from "@/types/api";
@@ -65,6 +66,9 @@ export default function ModelInputComponent({
   );
   const [openManageProvidersDialog, setOpenManageProvidersDialog] =
     useState(false);
+
+  // Check if user is admin - only admins can manage model providers
+  const isAdmin = useAuthStore((state) => state.isAdmin);
 
   const postTemplateValue = usePostTemplateValue({
     parameterId: "model",
@@ -476,7 +480,8 @@ export default function ModelInputComponent({
           "external-option-button",
         )}
 
-      {renderFooterButton(
+      {/* Only show Manage Model Providers button for admin users */}
+      {isAdmin && renderFooterButton(
         "Manage Model Providers",
         "Settings",
         () => setOpenManageProvidersDialog(true),
@@ -525,7 +530,8 @@ export default function ModelInputComponent({
         {renderPopoverContent()}
       </Popover>
 
-      {openManageProvidersDialog && (
+      {/* Only render modal for admin users */}
+      {openManageProvidersDialog && isAdmin && (
         <ModelProviderModal
           open={openManageProvidersDialog}
           onClose={handleManageProvidersDialogClose}

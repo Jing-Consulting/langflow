@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { ENABLE_NEW_SIDEBAR } from "@/customization/feature-flags";
 import useFlowStore from "@/stores/flowStore";
+import useFlowsManagerStore from "@/stores/flowsManagerStore";
+import { usePatchUpdateFlow } from "@/controllers/API/queries/flows/use-patch-update-flow";
 import { cn } from "@/utils/utils";
 import { useSearchContext } from "../flowSidebarComponent";
 import { NAV_ITEMS } from "../flowSidebarComponent/components/sidebarSegmentedNav";
@@ -31,9 +33,38 @@ export const MemoizedCanvasControls = memo(
     shadowBoxWidth,
     shadowBoxHeight,
   }: MemoizedCanvasControlsProps) => {
-    const isLocked = useFlowStore(
-      useShallow((state) => state.currentFlow?.locked),
+    const currentFlow = useFlowStore(
+      useShallow((state) => state.currentFlow),
     );
+    const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
+    const flows = useFlowsManagerStore((state) => state.flows);
+    const setFlows = useFlowsManagerStore((state) => state.setFlows);
+    const { mutateAsync } = usePatchUpdateFlow();
+
+    const isLocked = currentFlow?.locked ?? false;
+
+    const handleToggleLock = async () => {
+      if (!currentFlow?.id) return;
+
+      try {
+        const updatedFlow = await mutateAsync({
+          id: currentFlow.id,
+          locked: !isLocked,
+        });
+
+        // Update local state
+        if (flows) {
+          setFlows(
+            flows.map((flow) =>
+              flow.id === updatedFlow.id ? updatedFlow : flow
+            )
+          );
+        }
+        setCurrentFlow(updatedFlow);
+      } catch (error) {
+        console.error("Failed to toggle lock:", error);
+      }
+    };
 
     return (
       <CanvasControls>
@@ -42,8 +73,9 @@ export const MemoizedCanvasControls = memo(
           unselectable="on"
           size="icon"
           data-testid="lock-status"
-          className="flex items-center justify-center px-2 rounded-none gap-1 cursor-default"
-          title={`Lock status: ${isLocked ? "Locked" : "Unlocked"}`}
+          className="flex items-center justify-center px-2 rounded-none gap-1 cursor-pointer hover:bg-muted"
+          title={`Click to ${isLocked ? "unlock" : "lock"} flow`}
+          onClick={handleToggleLock}
         >
           <ForwardedIconComponent
             name={isLocked ? "Lock" : "Unlock"}

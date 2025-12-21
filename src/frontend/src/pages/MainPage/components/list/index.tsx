@@ -15,6 +15,7 @@ import useDeleteFlow from "@/hooks/flows/use-delete-flow";
 import DeleteConfirmationModal from "@/modals/deleteConfirmationModal";
 import ExportModal from "@/modals/exportModal";
 import FlowSettingsModal from "@/modals/flowSettingsModal";
+import CopyToModal from "@/modals/copyToModal";
 import useAlertStore from "@/stores/alertStore";
 import type { FlowType } from "@/types/flow";
 import { downloadFlow } from "@/utils/reactflowUtils";
@@ -38,6 +39,7 @@ const ListComponent = ({
 }) => {
   const navigate = useCustomNavigate();
   const [openDelete, setOpenDelete] = useState(false);
+  const [openCopyTo, setOpenCopyTo] = useState(false);
   const setSuccessData = useAlertStore((state) => state.setSuccessData);
   const { deleteFlow } = useDeleteFlow();
   const setErrorData = useAlertStore((state) => state.setErrorData);
@@ -110,15 +112,13 @@ const ListComponent = ({
         draggable
         onDragStart={onDragStart}
         onClick={handleClick}
-        className={`flex flex-row bg-background ${
-          isComponent ? "cursor-default" : "cursor-pointer"
-        } group justify-between rounded-lg border-none px-4 py-3 shadow-none hover:bg-muted`}
+        className={`flex flex-row bg-background ${isComponent ? "cursor-default" : "cursor-pointer"
+          } group justify-between rounded-lg border-none px-4 py-3 shadow-none hover:bg-muted`}
         data-testid="list-card"
       >
         <div
-          className={`flex min-w-0 ${
-            isComponent ? "cursor-default" : "cursor-pointer"
-          } items-center gap-4`}
+          className={`flex min-w-0 ${isComponent ? "cursor-default" : "cursor-pointer"
+            } items-center gap-4`}
         >
           <div className="group/checkbox relative flex items-center">
             <div
@@ -201,6 +201,7 @@ const ListComponent = ({
               <DropdownComponent
                 flowData={flowData}
                 setOpenDelete={setOpenDelete}
+                setOpenCopyTo={setOpenCopyTo}
                 handleExport={handleExport}
                 handleEdit={() => {
                   setOpenSettings(true);
@@ -229,8 +230,14 @@ const ListComponent = ({
         setOpen={setOpenSettings}
         flowData={flowData}
       />
+      <CopyToModal
+        open={openCopyTo}
+        setOpen={setOpenCopyTo}
+        sourceFlow={flowData}
+      />
     </>
   );
 };
 
 export default ListComponent;
+

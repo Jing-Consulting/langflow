@@ -29,7 +29,7 @@ class AnthropicModelComponent(LCModelComponent):
             name="max_tokens",
             display_name="Max Tokens",
             advanced=True,
-            value=4096,
+            value=10000,  # MACP-AB default
             info="The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
         ),
         DropdownInput(
@@ -51,7 +51,7 @@ class AnthropicModelComponent(LCModelComponent):
         SliderInput(
             name="temperature",
             display_name="Temperature",
-            value=0.1,
+            value=0,  # MACP-AB default: deterministic output
             info="Run inference with this temperature. Must by in the closed interval [0.0, 1.0].",
             range_spec=RangeSpec(min=0, max=1, step=0.01),
             advanced=True,

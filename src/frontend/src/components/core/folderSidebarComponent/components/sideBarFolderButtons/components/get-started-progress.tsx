@@ -1,8 +1,7 @@
 import { type FC, useEffect, useMemo, useState } from "react";
-import { FaDiscord, FaGithub } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
 import IconComponent from "@/components/common/genericIconComponent";
 import { Button } from "@/components/ui/button";
-import { DISCORD_URL, GITHUB_URL } from "@/constants/constants";
 import { useGetUserData, useUpdateUser } from "@/controllers/API/queries/auth";
 import ModalsComponent from "@/pages/MainPage/components/modalsComponent";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
@@ -15,8 +14,6 @@ export const GetStartedProgress: FC<{
   isDiscordJoined: boolean;
   handleDismissDialog: () => void;
 }> = ({ userData, isGithubStarred, isDiscordJoined, handleDismissDialog }) => {
-  const [isGithubStarredChild, setIsGithubStarredChild] =
-    useState(isGithubStarred);
   const [isDiscordJoinedChild, setIsDiscordJoinedChild] =
     useState(isDiscordJoined);
   const [newProjectModal, setNewProjectModal] = useState(false);
@@ -34,13 +31,10 @@ export const GetStartedProgress: FC<{
 
   const hasFlows = flows && flows?.length > 0;
 
+  // Simplified progress: 2 steps (contact support + create flow)
   const percentageGetStarted = useMemo(() => {
-    const stepValue = 33;
+    const stepValue = 50;
     let totalPercentage = 0;
-
-    if (userData?.optins?.github_starred) {
-      totalPercentage += stepValue;
-    }
 
     if (userData?.optins?.discord_clicked) {
       totalPercentage += stepValue;
@@ -48,10 +42,6 @@ export const GetStartedProgress: FC<{
 
     if (hasFlows) {
       totalPercentage += stepValue;
-    }
-
-    if (totalPercentage === 99) {
-      return 100;
     }
 
     return Math.min(totalPercentage, 100);
@@ -69,12 +59,9 @@ export const GetStartedProgress: FC<{
       {
         onSuccess: () => {
           mutateLoggedUser({});
-          if (key === "github_starred") {
-            setIsGithubStarredChild(true);
-            window.open(GITHUB_URL, "_blank", "noopener,noreferrer");
-          } else if (key === "discord_clicked") {
+          if (key === "discord_clicked") {
             setIsDiscordJoinedChild(true);
-            window.open(DISCORD_URL, "_blank", "noopener,noreferrer");
+            window.open("https://jingconsult.online/support", "_blank", "noopener,noreferrer");
           } else if (key === "dialog_dismissed") {
             handleDismissDialog();
           }
@@ -124,48 +111,6 @@ export const GetStartedProgress: FC<{
 
       <div className="mt-2 space-y-1">
         <Button
-          data-testid="github_starred_btn_get_started"
-          unstyled
-          className={cn(
-            "w-full",
-            isGithubStarredChild && "pointer-events-none",
-          )}
-          onClick={(e) => {
-            if (isGithubStarredChild) {
-              e.preventDefault();
-              return;
-            }
-            handleUserTrack("github_starred");
-          }}
-        >
-          <div
-            className={cn(
-              "flex items-center gap-2 rounded-md px-2 py-[10px] hover:bg-muted",
-              isGithubStarredChild && "pointer-events-none",
-            )}
-          >
-            {isGithubStarredChild ? (
-              <span data-testid="github_starred_icon_get_started">
-                <IconComponent
-                  name="Check"
-                  className="h-4 w-4 text-accent-emerald-foreground"
-                />
-              </span>
-            ) : (
-              <FaGithub className="h-4 w-4" />
-            )}
-            <span
-              className={cn(
-                "text-sm",
-                isGithubStarredChild && "text-muted-foreground line-through",
-              )}
-            >
-              Star repo for updates
-            </span>
-          </div>
-        </Button>
-
-        <Button
           data-testid="discord_joined_btn_get_started"
           unstyled
           className={cn(
@@ -202,7 +147,7 @@ export const GetStartedProgress: FC<{
                 isDiscordJoinedChild && "text-muted-foreground line-through",
               )}
             >
-              Join the community
+              Contact JC Support
             </span>
           </div>
         </Button>
@@ -239,9 +184,10 @@ export const GetStartedProgress: FC<{
         openModal={newProjectModal}
         setOpenModal={setNewProjectModal}
         openDeleteFolderModal={false}
-        setOpenDeleteFolderModal={() => {}}
-        handleDeleteFolder={() => {}}
+        setOpenDeleteFolderModal={() => { }}
+        handleDeleteFolder={() => { }}
       />
     </div>
   );
 };
+

@@ -8,6 +8,7 @@ import useSelectOptionsChange from "../../hooks/use-select-options-change";
 type DropdownComponentProps = {
   flowData: FlowType;
   setOpenDelete: (open: boolean) => void;
+  setOpenCopyTo?: (open: boolean) => void;
   handleExport: () => void;
   handleEdit: () => void;
 };
@@ -15,6 +16,7 @@ type DropdownComponentProps = {
 const DropdownComponent = ({
   flowData,
   setOpenDelete,
+  setOpenCopyTo,
   handleExport,
   handleEdit,
 }: DropdownComponentProps) => {
@@ -89,6 +91,21 @@ const DropdownComponent = ({
       <DropdownMenuItem
         onClick={(e) => {
           e.stopPropagation();
+          setOpenCopyTo?.(true);
+        }}
+        className="cursor-pointer"
+        data-testid="btn-copy-to-flow"
+      >
+        <ForwardedIconComponent
+          name="ArrowRightToLine"
+          aria-hidden="true"
+          className="mr-2 h-4 w-4"
+        />
+        Copy To...
+      </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={(e) => {
+          e.stopPropagation();
           setOpenDelete(true);
         }}
         className="cursor-pointer text-destructive"
@@ -106,3 +123,5 @@ const DropdownComponent = ({
 };
 
 export default DropdownComponent;
+
+

@@ -132,7 +132,7 @@ export const SidebarDraggableComponent = forwardRef(
             tabIndex={0}
             onKeyDown={handleKeyDown}
             className="rounded-md outline-none ring-ring focus-visible:ring-1"
-            data-testid={`${sectionName.toLowerCase()}_${display_name.toLowerCase()}_draggable`}
+            data-testid={`${(sectionName ?? "").toLowerCase()}_${(display_name ?? "").toLowerCase()}_draggable`}
           >
             <div
               data-testid={sectionName + display_name}

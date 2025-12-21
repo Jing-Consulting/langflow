@@ -84,7 +84,7 @@ class LanguageModelComponent(LCModelComponent):
         SliderInput(
             name="temperature",
             display_name="Temperature",
-            value=0.1,
+            value=0,  # MACP-AB default: deterministic output
             info="Controls randomness in responses",
             range_spec=RangeSpec(min=0, max=1, step=0.01),
             advanced=True,

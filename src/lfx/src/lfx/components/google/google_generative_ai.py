@@ -22,14 +22,17 @@ class GoogleGenerativeAIComponent(LCModelComponent):
     inputs = [
         *LCModelComponent.get_base_inputs(),
         IntInput(
-            name="max_output_tokens", display_name="Max Output Tokens", info="The maximum number of tokens to generate."
+            name="max_output_tokens",
+            display_name="Max Output Tokens",
+            info="The maximum number of tokens to generate.",
+            value=10000,  # MACP-AB default
         ),
         DropdownInput(
             name="model_name",
             display_name="Model",
             info="The name of the model to use.",
             options=GOOGLE_GENERATIVE_AI_MODELS,
-            value="gemini-1.5-pro",
+            value="gemini-2.5-flash",  # Updated to latest default
             refresh_button=True,
             combobox=True,
         ),
@@ -49,7 +52,7 @@ class GoogleGenerativeAIComponent(LCModelComponent):
         SliderInput(
             name="temperature",
             display_name="Temperature",
-            value=0.1,
+            value=0,  # MACP-AB default: deterministic output
             range_spec=RangeSpec(min=0, max=1, step=0.01),
             info="Controls randomness. Lower values are more deterministic, higher values are more creative.",
         ),

@@ -7,8 +7,8 @@ export default function sortFields(a, b, fieldOrder) {
   if (!b) return -1;
 
   // Normalize the case to ensure case-insensitive comparison
-  const normalizedFieldA = a.toLowerCase();
-  const normalizedFieldB = b.toLowerCase();
+  const normalizedFieldA = (a ?? "").toLowerCase();
+  const normalizedFieldB = (b ?? "").toLowerCase();
 
   const aIsPriority = priorityFields.has(normalizedFieldA);
   const bIsPriority = priorityFields.has(normalizedFieldB);

@@ -1,166 +1,37 @@
 from .model_metadata import create_model_metadata
 
 # Unified model metadata - single source of truth
+# Note: Only models with default=True will show in the model selector by default
+# Limited to 3 most advanced models per provider for UI conciseness
 OLLAMA_MODELS_DETAILED = [
-    # Tool Calling Models
+    # TOP 3 DEFAULTS
     create_model_metadata(
         provider="Ollama",
         name="llama3.3",
         icon="Ollama",
         tool_calling=True,
-        default=True,
+        default=True,  # Default 1/3 - Recommended
     ),
     create_model_metadata(
         provider="Ollama",
         name="qwq",
         icon="Ollama",
         tool_calling=True,
-        default=True,
+        default=True,  # Default 2/3 - Reasoning
     ),
     create_model_metadata(
         provider="Ollama",
         name="llama3.2",
         icon="Ollama",
         tool_calling=True,
+        default=True,  # Default 3/3 - Stable
     ),
-    create_model_metadata(
-        provider="Ollama",
-        name="llama3.1",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="mistral",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="qwen2",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="qwen2.5",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="qwen2.5-coder",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="mistral-nemo",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="mixtral",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="command-r",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="command-r-plus",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="mistral-large",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="smollm2",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="hermes3",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="athene-v2",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="mistral-small",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="nemotron-mini",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="nemotron",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="llama3-groq-tool-use",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="granite3-dense",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="granite3.1-dense",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="aya-expanse",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="granite3-moe",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="firefunction-v2",
-        icon="Ollama",
-        tool_calling=True,
-    ),
-    create_model_metadata(
-        provider="Ollama",
-        name="cogito",
-        icon="Ollama",
-        tool_calling=True,
-    ),
+    # Additional models (not default)
+    create_model_metadata(provider="Ollama", name="llama3.1", icon="Ollama", tool_calling=True),
+    create_model_metadata(provider="Ollama", name="mistral", icon="Ollama", tool_calling=True),
+    create_model_metadata(provider="Ollama", name="qwen2.5", icon="Ollama", tool_calling=True),
+    create_model_metadata(provider="Ollama", name="mixtral", icon="Ollama", tool_calling=True),
+    create_model_metadata(provider="Ollama", name="command-r-plus", icon="Ollama", tool_calling=True),
 ]
 
 # Filter lists based on metadata properties
@@ -176,12 +47,7 @@ OLLAMA_EMBEDDING_MODELS = [
     "nomic-embed-text",
     "mxbai-embed-large",
     "snowflake-arctic-embed",
-    "all-minilm",
     "bge-m3",
-    "bge-large",
-    "paraphrase-multilingual",
-    "granite-embedding",
-    "jina-embeddings-v2-base-en",
 ]
 
 # Embedding models as detailed metadata

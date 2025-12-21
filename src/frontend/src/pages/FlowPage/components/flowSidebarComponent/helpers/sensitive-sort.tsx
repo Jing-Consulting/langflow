@@ -1,8 +1,12 @@
-export default function sensitiveSort(a: string, b: string): number {
+export default function sensitiveSort(a: string | null | undefined, b: string | null | undefined): number {
+  // Handle null/undefined values to prevent crashes
+  const strA = a ?? "";
+  const strB = b ?? "";
+
   // Extract the name and number from each string using regular expressions
   const regex = /(.+) \((\w+)\)/;
-  const matchA = a.match(regex);
-  const matchB = b.match(regex);
+  const matchA = strA.match(regex);
+  const matchB = strB.match(regex);
 
   if (matchA && matchB) {
     // Compare the names alphabetically
@@ -19,6 +23,6 @@ export default function sensitiveSort(a: string, b: string): number {
   } else {
     // Handle cases where one or both strings do not match the expected pattern
     // Simple strings are treated as pure alphabetical comparisons
-    return a.localeCompare(b);
+    return strA.localeCompare(strB);
   }
 }

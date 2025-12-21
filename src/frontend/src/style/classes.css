@@ -8,10 +8,45 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* MACP custom borders - DARK visible brand green #174f3f */
+.border,
+[class*="border-border"],
+[class*="group-data-"],
+[data-sidebar="sidebar"],
+[data-variant="sidebar"]>div,
+.peer>div,
+main,
+.bg-background {
+  border-color: #174f3f !important;
+}
+
+/* Force sidebar borders to be thick and visible */
+[data-sidebar="sidebar"] {
+  border-right: 2px solid #174f3f !important;
+}
+
+/* Discord Widget Modal - ALWAYS on top */
+[data-jc-modal="discord"] {
+  z-index: 999999 !important;
+  position: fixed !important;
+  isolation: isolate;
+}
+
+/* When modal is open, completely disable sidebar interaction */
+body:has([data-jc-modal]) [data-sidebar],
+body:has([data-jc-modal]) [data-sidebar="sidebar"],
+body:has([data-jc-modal]) .z-50,
+body:has([data-jc-modal]) .z-40 {
+  z-index: 10 !important;
+  pointer-events: none !important;
+  opacity: 0.3 !important;
+}
+
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
 pre {
   font-family: inherit;
 }
@@ -24,9 +59,11 @@ pre {
 .AccordionContent {
   overflow: hidden;
 }
+
 .AccordionContent[data-state="open"] {
   animation: slideDown 300ms ease-out;
 }
+
 .AccordionContent[data-state="closed"] {
   animation: slideUp 300ms ease-out;
 }
@@ -34,6 +71,7 @@ pre {
 .gradient-end {
   animation: gradient-motion-end 3s infinite forwards;
 }
+
 .gradient-start {
   animation: gradient-motion-start 4s infinite forwards;
 }
@@ -52,6 +90,7 @@ select:-webkit-autofill:focus {
   box-shadow: 0 0 0px 1000px #fff6d0 inset;
   color: black;
 }
+
 .ace_scrollbar::-webkit-scrollbar {
   height: 8px;
   width: 8px;
@@ -110,9 +149,12 @@ textarea[class^="ag-"] {
   border: 1px solid transparent !important;
   outline: none !important;
   outline-color: transparent !important;
-  -webkit-box-shadow: none !important; /* Safari and older Chrome versions */
-  -moz-box-shadow: none !important; /* Older Firefox versions */
-  box-shadow: none !important; /* Standard syntax */
+  -webkit-box-shadow: none !important;
+  /* Safari and older Chrome versions */
+  -moz-box-shadow: none !important;
+  /* Older Firefox versions */
+  box-shadow: none !important;
+  /* Standard syntax */
 }
 
 input[class^="ag-"][type="text"]:focus,
@@ -124,9 +166,12 @@ textarea[class^="ag-"]:focus {
   border: 1px solid transparent !important;
   outline-color: transparent !important;
   outline: none !important;
-  -webkit-box-shadow: none !important; /* Safari and older Chrome versions */
-  -moz-box-shadow: none !important; /* Older Firefox versions */
-  box-shadow: none !important; /* Standard syntax */
+  -webkit-box-shadow: none !important;
+  /* Safari and older Chrome versions */
+  -moz-box-shadow: none !important;
+  /* Older Firefox versions */
+  box-shadow: none !important;
+  /* Standard syntax */
 }
 
 .ace_scrollbar::-webkit-scrollbar-track {
@@ -208,15 +253,13 @@ textarea[class^="ag-"]:focus {
     100% 100%,
     0 0;
 
-  background-image: linear-gradient(
-    var(--shine-deg),
-    transparent 20%,
-    transparent 40%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 55%,
-    transparent 60%,
-    transparent 100%
-  );
+  background-image: linear-gradient(var(--shine-deg),
+      transparent 20%,
+      transparent 40%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 55%,
+      transparent 60%,
+      transparent 100%);
 
   background-size:
     250% 250%,
@@ -274,6 +317,7 @@ input[type="search"]::-webkit-search-cancel-button {
   background-image: none;
   cursor: pointer;
 }
+
 .react-flow__background pattern circle {
   fill: hsl(var(--canvas-dot)) !important;
 }
@@ -288,6 +332,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .jse-button.jse-transform {
   display: none !important;
 }
+
 .jse-search-box-background {
   display: none !important;
 }
@@ -300,6 +345,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .jse-status-bar {
   padding: 10px !important;
 }
+
 .jse-menu {
   padding: 10px !important;
 }
@@ -316,18 +362,21 @@ input[type="search"]::-webkit-search-cancel-button {
 .jse-space {
   border-radius: var(--radius) !important;
 }
+
 .jse-group-button.jse-button.jse-first {
   border-radius: 5px !important;
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-right: none !important;
 }
+
 .jse-group-button.jse-button:not(.jse-first) {
   border-radius: 5px !important;
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
   border-left: none !important;
 }
+
 .jse-group-button.jse-button:not(.jse-first) {
   border-right: solid 1px hsl(var(--border)) !important;
 }
@@ -336,11 +385,9 @@ input[type="search"]::-webkit-search-cancel-button {
   background-color: hsl(var(--background)) !important;
   color: hsl(var(--foreground)) !important;
 
-  background-image: linear-gradient(
-    to top,
-    hsl(var(--primary)) 2px,
-    transparent 2px
-  ) !important;
+  background-image: linear-gradient(to top,
+      hsl(var(--primary)) 2px,
+      transparent 2px) !important;
 }
 
 .jse-group-button.jse-button {
@@ -362,6 +409,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .jse-menu {
   align-items: center !important;
 }
+
 .cm-textfield {
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
