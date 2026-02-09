@@ -426,7 +426,7 @@ class TestAgentComponentWithClient(ComponentTestBaseWithClient):
             api_key=api_key,
             model=[
                 {
-                    "name": "gpt-4o",
+                    "name": "gpt-4.1",
                     "provider": "OpenAI",
                     "icon": "OpenAI",
                     "metadata": {
@@ -569,7 +569,7 @@ class TestAgentComponentWithClient(ComponentTestBaseWithClient):
             api_key=api_key,
             model=[
                 {
-                    "name": "gpt-4o",
+                    "name": "gpt-4.1",
                     "provider": "OpenAI",
                     "icon": "OpenAI",
                     "metadata": {
@@ -602,7 +602,7 @@ class TestAgentComponentWithClient(ComponentTestBaseWithClient):
             api_key=api_key,
             model=[
                 {
-                    "name": "gpt-4o",
+                    "name": "gpt-4.1",
                     "provider": "OpenAI",
                     "icon": "OpenAI",
                     "metadata": {

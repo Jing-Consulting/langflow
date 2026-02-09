@@ -5,9 +5,11 @@ import { useDarkStore } from "@/stores/darkStore";
 
 const useTheme = () => {
   const [systemTheme, setSystemTheme] = useState(false);
-  const { setDark, dark } = useDarkStore((state) => ({
+  const { setDark, dark, setMacp, macp } = useDarkStore((state) => ({
     setDark: state.setDark,
     dark: state.dark,
+    setMacp: state.setMacp,
+    macp: state.macp,
   }));
 
   const handleSystemTheme = () => {
@@ -23,9 +25,15 @@ const useTheme = () => {
     const themePreference = localStorage.getItem("themePreference");
     if (themePreference === "light") {
       setDark(false);
+      setMacp(false);
       setSystemTheme(false);
     } else if (themePreference === "dark") {
       setDark(true);
+      setMacp(false);
+      setSystemTheme(false);
+    } else if (themePreference === "macp") {
+      setDark(false);
+      setMacp(true);
       setSystemTheme(false);
     } else {
       // Default to system theme
@@ -50,9 +58,15 @@ const useTheme = () => {
   const setThemePreference = (theme) => {
     if (theme === "light") {
       setDark(false);
+      setMacp(false);
       setSystemTheme(false);
     } else if (theme === "dark") {
       setDark(true);
+      setMacp(false);
+      setSystemTheme(false);
+    } else if (theme === "macp") {
+      setDark(false);
+      setMacp(true);
       setSystemTheme(false);
     } else {
       setSystemTheme(true);
@@ -61,7 +75,7 @@ const useTheme = () => {
     localStorage.setItem("themePreference", theme);
   };
 
-  return { systemTheme, dark, setThemePreference };
+  return { systemTheme, dark, macp, setThemePreference };
 };
 
 export default useTheme;

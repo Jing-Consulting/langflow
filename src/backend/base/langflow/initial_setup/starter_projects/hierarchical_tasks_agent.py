@@ -9,8 +9,8 @@ from lfx.graph import Graph
 
 
 def hierarchical_tasks_agent_graph():
-    llm = OpenAIModelComponent(model_name="gpt-4o-mini")
-    manager_llm = OpenAIModelComponent(model_name="gpt-4o")
+    llm = OpenAIModelComponent(model_name="gpt-4.1-mini")
+    manager_llm = OpenAIModelComponent(model_name="gpt-4.1")
     search_api_tool = SearchAPIComponent()
     researcher_agent = CrewAIAgentComponent()
     chat_input = ChatInput()

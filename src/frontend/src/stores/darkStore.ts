@@ -9,6 +9,10 @@ export const useDarkStore = create<DarkStoreType>((set, get) => ({
     const stored = window.localStorage.getItem("isDark");
     return stored !== null ? JSON.parse(stored) : false;
   })(),
+  macp: (() => {
+    const stored = window.localStorage.getItem("isMacp");
+    return stored !== null ? JSON.parse(stored) : false;
+  })(),
   stars: startedStars,
   version: "",
   latestVersion: "",
@@ -18,6 +22,10 @@ export const useDarkStore = create<DarkStoreType>((set, get) => ({
   setDark: (dark) => {
     set(() => ({ dark: dark }));
     window.localStorage.setItem("isDark", dark.toString());
+  },
+  setMacp: (macp) => {
+    set(() => ({ macp: macp }));
+    window.localStorage.setItem("isMacp", macp.toString());
   },
   refreshVersion: (v) => {
     set(() => ({ version: v }));

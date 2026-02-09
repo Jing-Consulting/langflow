@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FaDiscord } from "react-icons/fa";
+
+import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { ForwardedIconComponent } from "@/components/common/genericIconComponent";
-import { DiscordWidgetModal } from "@/components/common/DiscordWidgetModal";
 import {
   DATASTAX_DOCS_URL,
   DOCS_URL,
@@ -27,7 +27,8 @@ export const AccountMenu = () => {
   const latestVersion = useDarkStore((state) => state.latestVersion);
   const navigate = useCustomNavigate();
   const { mutate: mutationLogout } = useLogout();
-  const [showDiscordWidget, setShowDiscordWidget] = useState(false);
+
+  const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
 
   const { isAdmin, autoLogin } = useAuthStore((state) => ({
     isAdmin: state.isAdmin,
@@ -84,6 +85,8 @@ export const AccountMenu = () => {
               </div>
             </div>
 
+
+
             <div>
               <HeaderMenuItemButton
                 onClick={() => {
@@ -124,21 +127,6 @@ export const AccountMenu = () => {
               </HeaderMenuItemLink>
             </div>
 
-            <div>
-              <HeaderMenuItemButton
-                onClick={() => setShowDiscordWidget(true)}
-              >
-                <span
-                  data-testid="menu_support_button"
-                  id="menu_support_button"
-                  className="flex items-center gap-2"
-                >
-                  <FaDiscord className="h-4 w-4 text-[#5865F2]" />
-                  JC Support
-                </span>
-              </HeaderMenuItemButton>
-            </div>
-
             <div className="flex items-center justify-between px-4 py-[6.5px] text-sm">
               <span className="">Theme</span>
               <div className="relative top-[1px] float-right">
@@ -155,13 +143,10 @@ export const AccountMenu = () => {
             )}
           </div>
         </HeaderMenuItems>
-      </HeaderMenu>
 
-      {/* Discord Widget Modal */}
-      <DiscordWidgetModal
-        isOpen={showDiscordWidget}
-        onClose={() => setShowDiscordWidget(false)}
-      />
+      </HeaderMenu >
+
+
     </>
   );
 };

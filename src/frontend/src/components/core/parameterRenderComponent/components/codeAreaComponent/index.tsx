@@ -1,10 +1,31 @@
 import { GRADIENT_CLASS } from "@/constants/constants";
 import CodeAreaModal from "@/modals/codeAreaModal";
+import useAuthStore from "@/stores/authStore";
 import { cn } from "../../../../../utils/utils";
 import IconComponent from "../../../../common/genericIconComponent";
 import { Button } from "../../../../ui/button";
 import { getPlaceholder } from "../../helpers/get-placeholder-disabled";
 import type { InputProps } from "../../types";
+
+// JC MACP system component display names that non-admin users cannot edit
+const JC_MACP_COMPONENT_NAMES = [
+  "Response Formulator",
+  "Response Styler",
+  "Session RAG",
+  "File RAG",
+  "Financial Data",
+  "Ticker Context",
+  "Agent Skill",
+  "Custom Chat Input",
+  "Perplexity WS",
+  "Legal API",
+  "Session History",
+  "System Agent",
+  "User Context",
+  "Session Memory Graph",
+  "File Knowledge Graph",
+  "Community GraphRAG",
+];
 
 const codeContentClasses = {
   base: "overflow-hidden text-clip whitespace-nowrap",
@@ -53,6 +74,19 @@ export default function CodeAreaComponent({
   id = "",
   placeholder,
 }: InputProps<string>) {
+  // Check if user is admin
+  const isAdmin = useAuthStore((state) => state.isAdmin);
+
+  // Check if this is a JC MACP system component (non-admin users cannot edit)
+  // Uses display_name matching since nodeClass doesn't have tags property
+  const displayName = nodeClass?.display_name ?? "";
+  const isJcMacpComponent = JC_MACP_COMPONENT_NAMES.some(
+    name => displayName.toLowerCase() === name.toLowerCase()
+  );
+
+  // Non-admin users cannot edit JC MACP system components
+  const isReadOnly = !isAdmin && isJcMacpComponent;
+
   const renderCodeText = () => (
     <span
       id={id}
@@ -60,10 +94,10 @@ export default function CodeAreaComponent({
       className={cn(
         codeContentClasses.base,
         editNode ? codeContentClasses.editNode : codeContentClasses.normal,
-        disabled && !editNode && codeContentClasses.disabled,
+        (disabled || isReadOnly) && !editNode && codeContentClasses.disabled,
       )}
     >
-      {value !== "" ? value : getPlaceholder(disabled, placeholder)}
+      {value !== "" ? value : getPlaceholder(disabled || isReadOnly, placeholder)}
     </span>
   );
 
@@ -113,6 +147,7 @@ export default function CodeAreaComponent({
         nodeClass={nodeClass}
         setNodeClass={handleNodeClass!}
         setValue={(newValue) => handleOnNewValue({ value: newValue })}
+        readonly={isReadOnly}
       >
         <Button unstyled className="w-full">
           <div className="relative w-full">

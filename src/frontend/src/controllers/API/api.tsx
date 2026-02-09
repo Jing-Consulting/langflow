@@ -44,6 +44,10 @@ function ApiInterceptor() {
   useEffect(() => {
     const unregister = fetchIntercept.register({
       request: (url, config) => {
+        // Ensure config and headers are initialized
+        config = config || {};
+        config.headers = config.headers || {};
+
         const accessToken = customGetAccessToken();
 
         if (!isExternalURL(url)) {

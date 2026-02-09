@@ -73,7 +73,7 @@ class TestAgentComponentWithClient(ComponentTestBaseWithClient):
             tools=tools,
             input_value=input_value,
             api_key=api_key,
-            model_name="gpt-4o",
+            model_name="gpt-4.1",
             agent_llm="OpenAI",
             temperature=temperature,
             _session_id=str(uuid4()),
@@ -94,7 +94,7 @@ class TestAgentComponentWithClient(ComponentTestBaseWithClient):
 
         # Iterate over all OpenAI models
         failed_models = []
-        openai_chat_model_names = ["gpt-4", "gpt-4o", "gpt-4o-mini"]
+        openai_chat_model_names = ["gpt-4", "gpt-4.1", "gpt-4.1-mini"]
         for model_name in openai_chat_model_names:
             # Initialize the agent with mocked inputs
             tools = [CalculatorToolComponent().build_tool()]

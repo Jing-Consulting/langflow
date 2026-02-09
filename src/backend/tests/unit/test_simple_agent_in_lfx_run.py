@@ -74,7 +74,7 @@ async def get_graph() -> Graph:
     tools = await url_component.to_toolkit()
 
     agent.set(
-        model_name="gpt-4o-mini",
+        model_name="gpt-4.1-mini",
         agent_llm="OpenAI",
         api_key=os.getenv("OPENAI_API_KEY"),
         input_value=chat_input.message_response,
@@ -117,7 +117,7 @@ async def get_graph() -> Graph:
         assert "cp.ChatOutput()" in simple_agent_script_content
         assert "async def get_graph()" in simple_agent_script_content
         assert "await url_component.to_toolkit()" in simple_agent_script_content
-        assert 'model_name="gpt-4o-mini"' in simple_agent_script_content
+        assert 'model_name="gpt-4.1-mini"' in simple_agent_script_content
         assert 'agent_llm="OpenAI"' in simple_agent_script_content
         assert "return Graph(chat_input, chat_output" in simple_agent_script_content
 
@@ -158,7 +158,7 @@ async def get_graph() -> Graph:
         assert 'os.getenv("OPENAI_API_KEY")' in content
 
         # Should use the recommended model
-        assert 'model_name="gpt-4o-mini"' in content
+        assert 'model_name="gpt-4.1-mini"' in content
 
     async def test_agent_workflow_direct_execution(self):
         """Test the agent workflow by executing the graph directly."""
@@ -187,7 +187,7 @@ async def get_graph() -> Graph:
 
         # Configure agent
         agent.set(
-            model_name="gpt-4o-mini",
+            model_name="gpt-4.1-mini",
             agent_llm="OpenAI",
             api_key=os.getenv("OPENAI_API_KEY", "test-key"),  # Use test key if not available
             input_value="Hello, how are you?",  # Direct input instead of chat_input.message_response
@@ -263,7 +263,7 @@ async def get_graph() -> Graph:
 
         # Test the agent.set() configuration
         agent.set(
-            model_name="gpt-4o-mini",
+            model_name="gpt-4.1-mini",
             agent_llm="OpenAI",
             api_key="test-key",  # pragma: allowlist secret
             input_value="Test message",
@@ -359,7 +359,7 @@ async def get_graph() -> Graph:
 
         # Configure agent with real API key
         agent.set(
-            model_name="gpt-4o-mini",
+            model_name="gpt-4.1-mini",
             agent_llm="OpenAI",
             api_key=os.getenv("OPENAI_API_KEY"),
             input_value="What is 2 + 2?",  # Simple math question

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaDiscord } from "react-icons/fa";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { Button } from "@/components/ui/button";
-import { DiscordWidgetModal } from "@/components/common/DiscordWidgetModal";
+import DiscordModal from "@/components/common/DiscordModal";
 
 export const LangflowCounts = () => {
   const [showDiscordWidget, setShowDiscordWidget] = useState(false);
@@ -31,7 +31,7 @@ export const LangflowCounts = () => {
       </div>
 
       {/* Discord Widget Modal */}
-      <DiscordWidgetModal
+      <DiscordModal
         isOpen={showDiscordWidget}
         onClose={() => setShowDiscordWidget(false)}
       />

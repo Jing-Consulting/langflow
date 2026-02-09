@@ -45,6 +45,7 @@ const DeleteAccountPage = lazy(() => import("./pages/DeleteAccountPage"));
 const PlaygroundPage = lazy(() => import("./pages/Playground"));
 
 const SignUp = lazy(() => import("./pages/SignUpPage"));
+const SSOLoginPage = lazy(() => import("./pages/SSOLoginPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements([
@@ -200,6 +201,7 @@ const router = createBrowserRouter(
               </ProtectedLoginRoute>
             }
           />
+          <Route path="sso/login" element={<SSOLoginPage />} />
         </Route>
       </Route>
       <Route path="*" element={<CustomNavigate replace to="/" />} />

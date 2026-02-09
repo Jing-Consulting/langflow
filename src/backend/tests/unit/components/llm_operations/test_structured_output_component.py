@@ -376,7 +376,7 @@ class TestStructuredOutputComponent(ComponentTestBaseWithoutClient):
         component = StructuredOutputComponent(
             model=[
                 {
-                    "name": "gpt-4o-mini",
+                    "name": "gpt-4.1-mini",
                     "provider": "OpenAI",
                     "metadata": {
                         "model_class": "ChatOpenAI",
@@ -416,7 +416,7 @@ class TestStructuredOutputComponent(ComponentTestBaseWithoutClient):
         component = StructuredOutputComponent(
             model=[
                 {
-                    "name": "gpt-4o-mini",
+                    "name": "gpt-4.1-mini",
                     "provider": "OpenAI",
                     "metadata": {
                         "model_class": "ChatOpenAI",
@@ -544,7 +544,7 @@ class TestStructuredOutputComponent(ComponentTestBaseWithoutClient):
         component = StructuredOutputComponent(
             model=[
                 {
-                    "name": "gpt-4o-mini",
+                    "name": "gpt-4.1-mini",
                     "provider": "OpenAI",
                     "metadata": {
                         "model_class": "ChatOpenAI",
@@ -595,7 +595,7 @@ class TestStructuredOutputComponent(ComponentTestBaseWithoutClient):
         component = StructuredOutputComponent(
             model=[
                 {
-                    "name": "gpt-4o-mini",
+                    "name": "gpt-4.1-mini",
                     "provider": "OpenAI",
                     "metadata": {
                         "model_class": "ChatOpenAI",
@@ -650,7 +650,7 @@ class TestStructuredOutputComponent(ComponentTestBaseWithoutClient):
         component = StructuredOutputComponent(
             model=[
                 {
-                    "name": "gpt-4o-mini",
+                    "name": "gpt-4.1-mini",
                     "provider": "OpenAI",
                     "metadata": {
                         "model_class": "ChatOpenAI",

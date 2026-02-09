@@ -10,12 +10,12 @@
     --font-mono: "JetBrains Mono", monospace;
     --font-chivo: "Chivo", sans-serif;
 
-    --foreground: 163 55% 20%;
-    /* hsl(163, 55%, 20%) - MACP Green #165043 */
-    --background: 45 51% 74%;
-    /* hsl(45, 51%, 74%) - MACP Tan #ddd49d */
-    --muted: 45 51% 74%;
-    /* hsl(45, 51%, 74%) - MACP Tan #ddd49d - same as logo bg */
+    --foreground: 240 10% 3.9%;
+    /* Standard Foreground */
+    --background: 0 0% 100%;
+    /* Standard White Background */
+    --muted: 240 4.8% 95.9%;
+    /* Standard Muted */
     --muted-foreground: 163 55% 20%;
     /* hsl(163, 55%, 20%) - MACP Green for text on muted */
     --card: 0 0% 100%;
@@ -26,22 +26,22 @@
     /* hsl(0, 0%, 100%) */
     --popover-foreground: 0 0% 0%;
     /* hsl(0, 0%, 0%) */
-    --border: 163 55% 20%;
-    /* hsl(163, 55%, 20%) - EXACT brand color #174f3f */
+    --border: 240 5.9% 90%;
+    /* Standard Border */
     --input: 163 55% 25%;
     /* hsl(163, 55%, 25%) - Slightly lighter for inputs */
     --primary-foreground: 0 0% 100%;
     /* hsl(0, 0%, 100%) - White text on primary */
     --primary: 163 55% 20%;
     /* hsl(163, 55%, 20%) - MACP Green #165043 */
-    --secondary: 45 51% 74%;
-    /* hsl(45, 51%, 74%) - MACP Tan #ddd49d */
-    --secondary-foreground: 163 55% 20%;
-    /* hsl(163, 55%, 20%) - MACP Green */
-    --accent: 45 51% 74%;
-    /* hsl(45, 51%, 74%) - MACP Tan #ddd49d */
-    --accent-foreground: 163 55% 20%;
-    /* hsl(163, 55%, 20%) - MACP Green */
+    --secondary: 240 4.8% 95.9%;
+    /* Standard Secondary */
+    --secondary-foreground: 240 5.9% 10%;
+    /* Standard Secondary Foreground */
+    --accent: 240 4.8% 95.9%;
+    /* Standard Accent */
+    --accent-foreground: 240 5.9% 10%;
+    /* Standard Accent Foreground */
     --destructive: 0 72% 51%;
     /* hsl(0, 72%, 51%) */
     --destructive-foreground: 0 0% 100%;
@@ -58,8 +58,8 @@
     /* hsl(240, 6%, 90%) */
     --placeholder-foreground: 240 5% 65%;
     /* hsl(240, 5%, 65%) */
-    --canvas: 45 51% 74%;
-    /* hsl(45, 51%, 74%) - MACP Tan #ddd49d */
+    --canvas: 0 0% 100%;
+    /* Standard White Canvas */
     --canvas-dot: 163 55% 20%;
     /* hsl(163, 55%, 20%) - MACP Green #165043 */
     --accent-emerald: 149 80% 90%;
@@ -253,6 +253,23 @@
     --accent-amber-foreground: 26 90.5% 37.1%;
     --red-foreground: 0 90.6% 70.8%;
     --indigo-foreground: 243.7 54.5% 41.4%;
+  }
+
+  /* MACP Custom Theme (Tan) */
+  .macp-theme {
+    --foreground: 163 55% 20%;
+    --background: 45 51% 74%;
+    --muted: 45 51% 74%;
+    --muted-foreground: 163 55% 20%;
+    --border: 163 55% 20%;
+    --input: 163 55% 25%;
+    --primary: 163 55% 20%;
+    --secondary: 45 51% 74%;
+    --secondary-foreground: 163 55% 20%;
+    --accent: 45 51% 74%;
+    --accent-foreground: 163 55% 20%;
+    --canvas: 45 51% 74%;
+    --canvas-dot: 163 55% 20%;
   }
 
   .dark {

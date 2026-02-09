@@ -8,7 +8,7 @@ class Source(BaseModel):
     display_name: str | None = Field(default=None, description="The display name of the source component.")
     source: str | None = Field(
         default=None,
-        description="The source of the message. Normally used to display the model name (e.g. 'gpt-4o')",
+        description="The source of the message. Normally used to display the model name (e.g. 'gpt-4.1')",
     )
 
 

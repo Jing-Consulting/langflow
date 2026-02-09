@@ -299,7 +299,7 @@ class TestCugaComponentWithClient(ComponentTestBaseWithClient):
             api_key=api_key,
             model=[
                 {
-                    "name": "gpt-4o",
+                    "name": "gpt-4.1",
                     "provider": "OpenAI",
                     "icon": "OpenAI",
                     "metadata": {
@@ -333,7 +333,7 @@ class TestCugaComponentWithClient(ComponentTestBaseWithClient):
         input_value = "What is 2 + 2?"
 
         # Test only key OpenAI models to avoid timeout and complexity
-        key_models = ["gpt-4o", "gpt-4o-mini"]
+        key_models = ["gpt-4.1", "gpt-4.1-mini"]
         failed_models = []
 
         for model_name in key_models:
@@ -389,7 +389,7 @@ class TestCugaComponentWithClient(ComponentTestBaseWithClient):
             api_key=api_key,
             model=[
                 {
-                    "name": "gpt-4o",
+                    "name": "gpt-4.1",
                     "provider": "OpenAI",
                     "icon": "OpenAI",
                     "metadata": {

@@ -6,14 +6,23 @@ import router from "./routes";
 import { useDarkStore } from "./stores/darkStore";
 
 export default function App() {
-  const dark = useDarkStore((state) => state.dark);
+  const { dark, macp } = useDarkStore((state) => ({
+    dark: state.dark,
+    macp: state.macp,
+  }));
+
   useEffect(() => {
-    if (!dark) {
-      document.getElementById("body")!.classList.remove("dark");
-    } else {
-      document.getElementById("body")!.classList.add("dark");
+    const body = document.getElementById("body")!;
+    // Remove both potential classes first
+    body.classList.remove("dark", "macp-theme");
+
+    if (dark) {
+      body.classList.add("dark");
+    } else if (macp) {
+      body.classList.add("macp-theme");
     }
-  }, [dark]);
+    // If neither, it's standard light (no class, default white)
+  }, [dark, macp]);
   return (
     <Suspense fallback={<LoadingPage />}>
       <RouterProvider router={router} />
